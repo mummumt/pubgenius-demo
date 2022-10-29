@@ -9,7 +9,8 @@
     "lint": "next lint",
     "db:migrate": "npx prisma migrate dev",
     "db:push": "npx prisma db push",
-    "db:seed": "npx prisma db seed"
+    "db:seed": "npx prisma db seed && node prisma/seed.js",
+    "db:gen": "npx prisma generate"
   },
   "prisma": {
     "seed": "tsc prisma/seed.ts"
@@ -27,7 +28,6 @@
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.0",
     "prisma": "^4.5.0",
-    "typescript": "4.8.4",
-    "tsx": "^3.9.0"
+    "typescript": "4.8.4"
   }
 }

@@ -3,7 +3,8 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 const main = async () => {
-  const user = await prisma
+  const user = await prisma.user.findFirst()
+
   if (!user) {
     const userId = await prisma.user.create({
       data: {
