@@ -17,7 +17,7 @@ const customConfig: {
   refreshTokenPublicKey: string
 } = {
   port: 3000,
-  accessTokenExpiresIn: 60,
+  accessTokenExpiresIn: 120,
   refreshTokenExpiresIn: 60 * 24 * 30,
   origin: 'http://localhost:3000',
   dbUri: process.env.PRISMA_DATABASE_URL ?? '',

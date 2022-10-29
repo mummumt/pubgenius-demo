@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client'
 import { TRPCError, initTRPC } from '@trpc/server'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { Context } from './createContext'
 
 const t = initTRPC.context<Context>().create()

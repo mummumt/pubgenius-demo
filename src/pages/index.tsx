@@ -10,7 +10,7 @@ export default function Home() {
   const loginUserMutation = trpc.auth.login.useMutation()
   const logoutUserMutation = trpc.auth.logout.useMutation()
 
-  const userQuery = trpc.user.me.useQuery(undefined, { staleTime: Infinity, refetchOnWindowFocus: false, retry: false })
+  const userQuery = trpc.user.me.useQuery()
   const utils = trpc.useContext()
 
   if (!hello.data) {
