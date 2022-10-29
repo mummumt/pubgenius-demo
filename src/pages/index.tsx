@@ -1,12 +1,44 @@
-import { trpc } from "@/utils/trpc"
-import Head from "next/head"
-import Image from "next/image"
-import styles from "../styles/Home.module.css"
+import { trpc } from '@/utils/trpc'
+import Head from 'next/head'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css'
 
 export default function Home() {
-  const hello = trpc.getUser.useQuery({ id: "client", password: "yes" })
+  const hello = trpc.hello.useQuery()
   if (!hello.data) {
     return <div>Loading...</div>
+  }
+
+  const createUserMutation = trpc.auth.register.useMutation()
+  const loginUserMutation = trpc.auth.login.useMutation()
+  const logoutUserMutation = trpc.auth.logout.useMutation()
+  const refreshTokenMutation = trpc.auth.refresh.useMutation()
+  const userQuery = trpc.user.me.useQuery()
+
+  console.log('userQuery', userQuery)
+
+  const handleOnClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    createUserMutation.mutate(
+      { username: '12345', password: '12345678', passwordConfirm: '12345678' },
+      {
+        onSuccess: (result) => console.log(result),
+      },
+    )
+  }
+
+  const handleOnClickLogIn: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    loginUserMutation.mutate(
+      { username: '12345', password: '12345678' },
+      {
+        onSuccess: (result) => console.log(result),
+      },
+    )
+  }
+
+  const handleOnClickLogOut: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    logoutUserMutation.mutate(undefined, {
+      onSuccess: (result) => console.log(result),
+    })
   }
 
   return (
@@ -17,10 +49,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <button onClick={handleOnClick}>{userQuery.data?.data.user?.username || 'Create a User'} </button>
+      <button onClick={handleOnClickLogIn}>Login</button>
+      <button onClick={handleOnClickLogOut}>Logout</button>
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js! HAHAHAH</a>
-        </h1>
+        <h1>Welcome {userQuery.data?.data.user?.username}HAHA</h1>
 
         <p className={styles.description}>{hello.data.greeting}</p>
 
@@ -35,10 +68,7 @@ export default function Home() {
             <p>Learn about Next.js in an interactive course with quizzes!</p>
           </a>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
+          <a href="https://github.com/vercel/next.js/tree/canary/examples" className={styles.card}>
             <h2>Examples &rarr;</h2>
             <p>Discover and deploy boilerplate example Next.js projects.</p>
           </a>
@@ -50,20 +80,17 @@ export default function Home() {
             className={styles.card}
           >
             <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
+            <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
           </a>
         </div>
       </main>
-
       <footer className={styles.footer}>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{" "}
+          Powered by{' '}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
