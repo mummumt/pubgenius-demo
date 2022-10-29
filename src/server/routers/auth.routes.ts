@@ -5,13 +5,9 @@ import { createUserSchema, loginUserSchema } from '../schema/user.schema'
 
 const authRouter = router({
   register: publicProcedure.input(createUserSchema).mutation(({ input }) => registerHandler({ input })),
-  login: publicProcedure.input(loginUserSchema).mutation(({ input, ctx }) => {
-    console.log('ctx', ctx)
-
-    loginHandler({ input, ctx })
-  }),
+  login: publicProcedure.input(loginUserSchema).mutation(({ input, ctx }) => loginHandler({ input, ctx })),
   logout: publicProcedure.mutation(({ ctx }) => logoutHandler({ ctx })),
-  refresh: publicProcedure.mutation(({ ctx }) => refreshAccessTokenHandler({ ctx })),
+  refresh: publicProcedure.query(({ ctx }) => refreshAccessTokenHandler({ ctx })),
 })
 
 export default authRouter

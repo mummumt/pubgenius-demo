@@ -4,24 +4,26 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-  const hello = trpc.hello.useQuery()
-  if (!hello.data) {
-    return <div>Loading...</div>
-  }
+  const hello = trpc.hello.useQuery(undefined, { staleTime: Infinity })
 
   const createUserMutation = trpc.auth.register.useMutation()
   const loginUserMutation = trpc.auth.login.useMutation()
   const logoutUserMutation = trpc.auth.logout.useMutation()
-  const refreshTokenMutation = trpc.auth.refresh.useMutation()
-  const userQuery = trpc.user.me.useQuery()
 
-  console.log('userQuery', userQuery)
+  const userQuery = trpc.user.me.useQuery(undefined, { staleTime: Infinity, refetchOnWindowFocus: false, retry: false })
+  const utils = trpc.useContext()
+
+  if (!hello.data) {
+    return <div>Loading...</div>
+  }
 
   const handleOnClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     createUserMutation.mutate(
       { username: '12345', password: '12345678', passwordConfirm: '12345678' },
       {
-        onSuccess: (result) => console.log(result),
+        onSuccess: (result) => {
+          console.log(result)
+        },
       },
     )
   }
@@ -30,14 +32,20 @@ export default function Home() {
     loginUserMutation.mutate(
       { username: '12345', password: '12345678' },
       {
-        onSuccess: (result) => console.log(result),
+        onSuccess: (result) => {
+          utils.user.me.invalidate()
+          console.log(result)
+        },
       },
     )
   }
 
   const handleOnClickLogOut: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     logoutUserMutation.mutate(undefined, {
-      onSuccess: (result) => console.log(result),
+      onSuccess: (result) => {
+        utils.user.me.invalidate()
+        console.log(result)
+      },
     })
   }
 

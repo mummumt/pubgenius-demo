@@ -3,7 +3,6 @@ import { Context } from '@/server/createContext'
 import { TRPCError } from '@trpc/server'
 
 export const getMeHandler = ({ ctx }: { ctx: Context }) => {
-  console.log('callinggetme', ctx)
   try {
     const user = ctx.user
     return {

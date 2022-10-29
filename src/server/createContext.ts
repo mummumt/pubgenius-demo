@@ -4,9 +4,9 @@ import { PrismaClient } from '@prisma/client'
 import { deserializeUser } from '@/server/middleware/deserializeUser'
 
 export async function createContext(opts: trpcNext.CreateNextContextOptions) {
-  const prisma = new PrismaClient()
+  const deserialized = await deserializeUser({ req: opts?.req, res: opts?.res })
 
-  return { prisma, ...deserializeUser({ req: opts?.req, res: opts?.res }) }
+  return deserialized
 }
 
 export type Context = trpc.inferAsyncReturnType<typeof createContext>

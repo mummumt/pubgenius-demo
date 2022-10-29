@@ -53,7 +53,7 @@ export const registerHandler = async ({ input }: { input: CreateUserInput }) => 
 export const loginHandler = async ({ input, ctx: { req, res } }: { input: LoginUserInput; ctx: any }) => {
   try {
     // Get the user from the collection
-    const user = await findUser({ id: input.username })
+    const user = await findUser({ username: input.username })
 
     // Check if user exist and password is correct
     if (!user || !(await bcrypt.compare(input.password, user.password))) {
