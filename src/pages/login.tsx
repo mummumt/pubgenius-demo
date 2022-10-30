@@ -9,26 +9,9 @@ import { useRouter } from 'next/router'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import styled from '@emotion/styled'
 import { trpc } from '@/utils/trpc'
-
-const BlueBox = styled(Box)`
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`
-
-const PaddedCard = styled(Card)`
-  padding: 16px;
-`
-
-const FlexColumnBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 250px;
-`
+import LoginBox from '@/components/styled/LoginBox'
+import StyledCard from '@/components/styled/StyledCard'
+import FlexColumnBox from '@/components/styled/FlexColumnBox'
 
 type FieldValues = z.infer<typeof loginUserSchema>
 
@@ -58,15 +41,15 @@ const LoginPage: NextPage = () => {
       },
       {
         onSuccess: () => {
-          router.push('/')
+          router.push('/', '/', { shallow: true })
         },
       },
     )
   }
 
   return (
-    <BlueBox>
-      <PaddedCard>
+    <LoginBox>
+      <StyledCard>
         <Typography variant="h4" color="text.primary">
           Sign in
         </Typography>
@@ -103,8 +86,8 @@ const LoginPage: NextPage = () => {
             </Button>
           </FlexColumnBox>
         </form>
-      </PaddedCard>
-    </BlueBox>
+      </StyledCard>
+    </LoginBox>
   )
 }
 

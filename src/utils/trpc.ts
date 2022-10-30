@@ -1,6 +1,7 @@
 import { httpBatchLink } from '@trpc/client'
 import { createTRPCNext } from '@trpc/next'
 import type { AppRouter } from '../server/routers/_app'
+import superjson from 'superjson'
 
 function getBaseUrl() {
   if (typeof window !== 'undefined')
@@ -25,6 +26,16 @@ export const trpc = createTRPCNext<AppRouter>({
        * @link https://tanstack.com/query/v4/docs/reference/QueryClient
        **/
       queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
+      headers() {
+        if (ctx?.req) {
+          return {
+            ...ctx.req.headers,
+            'x-ssr': '1',
+          }
+        }
+        return {}
+      },
+      // transformer: superjson,
     }
   },
   /**

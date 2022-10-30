@@ -26,10 +26,12 @@
     "@mui/material": "^5.10.11",
     "@mui/styled-engine-sc": "^5.10.6",
     "@prisma/client": "^4.5.0",
+    "@reduxjs/toolkit": "^1.8.6",
     "@trpc/client": "^10.0.0-proxy-beta.26",
     "@trpc/next": "^10.0.0-proxy-beta.26",
     "@trpc/react-query": "^10.0.0-proxy-beta.26",
     "@trpc/server": "^10.0.0-proxy-beta.26",
+    "axios": "^1.1.3",
     "bcryptjs": "^2.4.3",
     "cookies-next": "^2.1.1",
     "jsonwebtoken": "^8.5.1",
@@ -38,7 +40,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.38.0",
+    "react-redux": "^8.0.4",
     "styled-components": "^5.3.6",
+    "superjson": "^1.11.0",
     "zod": "^3.19.1"
   },
   "devDependencies": {
