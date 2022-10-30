@@ -55,8 +55,8 @@ const RichTextEditor: React.FC<IRichTextEditor> = ({
   const config = React.useMemo(
     () => ({
       readonly: disabled,
-      minHeight: 400,
-      maxHeight: 640,
+      minHeight: 300,
+      maxHeight: 450,
       buttons: [
         'bold',
         'italic',

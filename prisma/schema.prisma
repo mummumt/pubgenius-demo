@@ -18,8 +18,6 @@ model User {
   profileUrl  String?
   likedTo     User[]   @relation("likedUsers")
   likedBy     User[]   @relation("likedUsers")
-  dislikedTo  User[]   @relation("dislikedUsers")
-  dislikedBy  User[]   @relation("dislikedUsers")
   createdDate DateTime @default(now())
   updatedDate DateTime @default(now()) @updatedAt
 }

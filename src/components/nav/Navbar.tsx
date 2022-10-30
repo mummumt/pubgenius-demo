@@ -11,7 +11,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState, useAppDispatch } from '../../app/store'
 
-const StyledNav = styled.div`
+const StyledNav = styled(Box)`
   background-color: ${(p) => p.theme.palette.primary.main};
   display: flex;
   flex-direction: row;
@@ -20,6 +20,15 @@ const StyledNav = styled.div`
   padding: 8px 24px;
   height: 64px;
   width: 100%;
+`
+
+const FlexEndBox = styled(Box)`
+  background-color: ${(p) => p.theme.palette.primary.main};
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 200px;
 `
 
 interface Props {}
@@ -76,7 +85,7 @@ const Navbar: React.FC<Props> = () => {
         {isLoading ? (
           <CircularProgress />
         ) : (
-          <Box>
+          <FlexEndBox>
             {!isLoggedIn ? (
               <>
                 <Button onClick={handleRegisterClick} color="inherit">
@@ -96,7 +105,7 @@ const Navbar: React.FC<Props> = () => {
                 </Button>
               </>
             )}
-          </Box>
+          </FlexEndBox>
         )}
       </StyledNav>
     </>

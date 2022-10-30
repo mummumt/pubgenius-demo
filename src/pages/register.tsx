@@ -126,7 +126,7 @@ const RegisterPage: NextPage = () => {
             </Box>
 
             <Button sx={{ mt: 4 }} type="submit" variant="contained">
-              Log In
+              Register
             </Button>
           </FlexColumnBox>
         </form>

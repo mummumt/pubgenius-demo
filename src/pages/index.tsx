@@ -1,10 +1,23 @@
+import { RootState } from '@/app/store'
+import UserCard from '@/components/common/UserCard'
 import Navbar from '@/components/nav/Navbar'
+import FlexCenterBox from '@/components/styled/FlexCenterBox'
+import FlexColumnBox from '@/components/styled/FlexColumnBox'
 import { trpc } from '@/utils/trpc'
-import { Box } from '@mui/material'
+import { Box, CircularProgress } from '@mui/material'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useSelector } from 'react-redux'
 
 export default function Home() {
+  const usersQuery = trpc.user.users.useQuery()
+
+  console.log('users', usersQuery.data)
+
+  const isLoading = usersQuery.isLoading && !usersQuery.data
+  const users = usersQuery.data?.data.users ?? []
+  const isNoData = (!usersQuery.isLoading && !usersQuery.data) || users.length === 0
+
   return (
     <Box>
       <Head>
@@ -15,7 +28,17 @@ export default function Home() {
       <Navbar />
 
       <main>
-        <h1>WelcomeHAHA</h1>
+        <FlexCenterBox>
+          {isNoData ? (
+            ' No Data'
+          ) : isLoading ? (
+            <CircularProgress />
+          ) : (
+            users.map((user) => {
+              return <UserCard key={user.id} user={user} />
+            })
+          )}
+        </FlexCenterBox>
       </main>
     </Box>
   )

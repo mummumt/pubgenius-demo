@@ -10,24 +10,42 @@ export const createUser = async (input: Prisma.UserCreateInput) => {
 }
 
 export const deleteUser = async (id: string) => {
-  return (await prisma.user.delete({
+  return await prisma.user.delete({
     where: {
       id,
     },
-  })) as User
+  })
 }
 
-export const findUser = async (where: Partial<Prisma.UserWhereInput>, select?: Prisma.UserSelect) => {
-  return (await prisma.user.findFirst({
+export const findUser = async (where: Partial<Prisma.UserWhereInput>) => {
+  return await prisma.user.findFirst({
     where,
-    select,
-  })) as User
+    include: {
+      likedTo: {
+        select: { id: true },
+      },
+    },
+  })
 }
 
-export const findUniqueUser = async (where: Prisma.UserWhereUniqueInput, select?: Prisma.UserSelect) => {
+export const findUsers = async () => {
+  return await prisma.user.findMany({
+    include: {
+      likedBy: {
+        select: { id: true },
+      },
+    },
+  })
+}
+
+export const findUniqueUser = async (where: Prisma.UserWhereUniqueInput) => {
   return (await prisma.user.findUnique({
     where,
-    select,
+    include: {
+      likedTo: {
+        select: { id: true },
+      },
+    },
   })) as User
 }
 

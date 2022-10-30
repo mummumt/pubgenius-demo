@@ -30,6 +30,8 @@ interface IRichTextDisplay {
 }
 const RichTextDisplay: React.FC<IRichTextDisplay> = ({ value }) => {
   const [config, setConfig] = React.useState({
+    height: 300,
+    maxHeight: 300,
     readonly: true,
     toolbar: false,
     showCharsCounter: false,
@@ -40,6 +42,8 @@ const RichTextDisplay: React.FC<IRichTextDisplay> = ({ value }) => {
     showPlaceholder: false,
     toolbarAdaptive: false,
     editHTMLDocumentMode: true,
+    allowResizeX: false,
+    allowResizeY: false,
   })
 
   return (

@@ -30,6 +30,7 @@ const theme = createTheme({
           width: '100%',
           height: '100%',
           minWidth: '320px',
+          overflow: 'hidden',
         },
         '#root': {
           width: '100%',
