@@ -22,7 +22,7 @@ This project was created to help demonstrate my Node.js and problem solving skil
  6. Connected frontend to the backend services, tested and when I think the project was ready, I looked for a hosting for the database and the application and then decided to use the traditional way of deploying which is to deploy with Vercel and to host PostgreSQL database with Heroku. The process went well.
  7. After all things are done, removed .env file from the project and all commits. Then wrote this article.
 
-The code were not 100% written by me, I most likely wrote by hand around 20% of the codebase in this project. Most of the code were reusable ones copied from my own projects and some of them are the ones I found on the internet and then modified to suit my needs.
+The code were not 100% written by me, I most likely wrote by hand around 20% of the codebase in this project. But I was the only one making decisions for which code I would like to use. Most of the code were reusable ones copied from my own projects and some of them are the ones I found on the internet and then modified to suit my needs.
  
  **Thank you for taking your time here, have a great day!**
 
