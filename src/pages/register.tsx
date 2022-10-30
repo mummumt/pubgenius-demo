@@ -49,7 +49,6 @@ const RegisterPage: NextPage = () => {
 
   const submitForm: SubmitHandler<FieldValues> = (formData) => {
     formData.userDetails = sanitize(formData.userDetails)
-    console.log(' formData.userDetails', formData.userDetails)
     registerMutation.mutate(formData, {
       onSuccess: () => {
         displayNotification({ type: 'success', message: 'Login success!' })
