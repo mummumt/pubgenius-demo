@@ -21,7 +21,7 @@ const StyledTinderCard = styled(TinderCard)`
   width: calc(40vw + 50px);
   max-width: 540px;
   height: 75vh;
-  box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 60px 0px rgba(228, 172, 20, 0.5);
   filter: ${(props: { disabled?: boolean }) => (props.disabled ? 'blur(8px)' : undefined)};
   pointer-events: ${(props: { disabled?: boolean }) => (props.disabled ? 'none' : undefined)};
   transition: 1s ease-in;

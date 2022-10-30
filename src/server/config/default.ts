@@ -19,7 +19,7 @@ const customConfig: {
   port: 3000,
   accessTokenExpiresIn: 120,
   refreshTokenExpiresIn: 60 * 24 * 30,
-  origin: 'http://localhost:3000',
+  origin: '',
   dbUri: process.env.PRISMA_DATABASE_URL ?? '',
   accessTokenPrivateKey: privateKey,
   accessTokenPublicKey: publicKey,

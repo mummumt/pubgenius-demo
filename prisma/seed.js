@@ -37,16 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var client_1 = require("@prisma/client");
-var prisma = new client_1.PrismaClient({
-    log: ["query", "info", "warn", "error"]
-});
+var prisma = new client_1.PrismaClient();
 var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     var user, userId;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                console.log("prisma"), prisma;
-                return [4 /*yield*/, prisma.user.findFirst()];
+            case 0: return [4 /*yield*/, prisma.user.findFirst()];
             case 1:
                 user = _a.sent();
                 if (!!user) return [3 /*break*/, 4];
