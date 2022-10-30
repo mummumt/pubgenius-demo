@@ -30,6 +30,7 @@ const Navbar: React.FC<Props> = () => {
   const userState = useSelector((state: RootState) => state.user)
   const dispatch = useAppDispatch()
   const logoutMutation = trpc.auth.logout.useMutation()
+  const deleteMutation = trpc.auth.delete.useMutation()
 
   // automatically authenticate user if token is found
   useEffect(() => {
@@ -41,13 +42,26 @@ const Navbar: React.FC<Props> = () => {
 
   const handleLogoutClick = () => {
     if (window.confirm('Confirm logout?')) {
-      logoutMutation.mutate()
-      dispatch(logout())
+      logoutMutation.mutate(undefined, {
+        onSuccess: () => dispatch(logout()),
+      })
+    }
+  }
+
+  const handleDeleteClick = () => {
+    if (window.confirm('Confirm delete?')) {
+      deleteMutation.mutate(undefined, {
+        onSuccess: () => dispatch(logout()),
+      })
     }
   }
 
   const handleLoginClick = () => {
     router.push('/login', 'login', { shallow: true })
+  }
+
+  const handleRegisterClick = () => {
+    router.push('/register', 'register', { shallow: true })
   }
 
   const isLoggedIn = Boolean(userState.userInfo)
@@ -63,14 +77,25 @@ const Navbar: React.FC<Props> = () => {
           <CircularProgress />
         ) : (
           <Box>
-            {!isLoggedIn && (
-              <Button onClick={handleLogoutClick} color="inherit">
-                Register
-              </Button>
+            {!isLoggedIn ? (
+              <>
+                <Button onClick={handleRegisterClick} color="inherit">
+                  Register
+                </Button>
+                <Button onClick={handleLoginClick} variant="contained" color="inherit">
+                  Log In
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button onClick={handleLogoutClick} variant="contained" color="inherit">
+                  Log Out
+                </Button>
+                <Button sx={{ ml: 2 }} onClick={handleDeleteClick} variant="contained" color="secondary">
+                  Delete
+                </Button>
+              </>
             )}
-            <Button onClick={isLoggedIn ? handleLogoutClick : handleLoginClick} variant="contained" color="inherit">
-              {isLoggedIn ? 'Log Out' : 'Log In'}
-            </Button>
           </Box>
         )}
       </StyledNav>

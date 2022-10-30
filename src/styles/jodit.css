@@ -1,0 +1,121 @@
+.jodit-color-picker__color-item {
+  height: 19px;
+  width: 19px;
+}
+
+.jodit-color-picker__group {
+  max-width: 190px;
+}
+
+.jodit-wysiwyg {
+  font-family: 'IBM Plex Sans Thai';
+}
+
+.jodit-wysiwyg h1,
+.jodit-wysiwyg h2,
+.jodit-wysiwyg h3,
+.jodit-wysiwyg h4,
+.jodit-wysiwyg h5,
+.jodit-wysiwyg h6,
+.jodit-wysiwyg p,
+.jodit-wysiwyg span {
+  /* margin-block-start: 0px;
+  margin-block-end: 0px; */
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.jodit-ui-button__text {
+  padding: 0px !important;
+}
+.jodit-popup__content .jodit-ui-button {
+  min-width: 90px;
+}
+.jodit-wysiwyg h1 {
+  font-weight: bold;
+  font-size: 60px;
+  line-height: 100%;
+  letter-spacing: 0.2px;
+}
+
+.jodit-wysiwyg h2 {
+  font-size: 48px;
+  line-height: 100%;
+  letter-spacing: 0.2px;
+}
+
+.jodit-wysiwyg h3 {
+  font-size: 40px;
+  line-height: 75%;
+  letter-spacing: 0.2px;
+}
+
+.jodit-wysiwyg h4 {
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 50%;
+  letter-spacing: 0.2px;
+}
+
+.jodit-wysiwyg h5 {
+  font-size: 28px;
+  line-height: 171%;
+  letter-spacing: 0.2px;
+}
+.jodit-wysiwyg h6 {
+  font-size: 24px;
+  line-height: 133%;
+  letter-spacing: 0.2px;
+}
+
+.jodit-wysiwyg p {
+  font-size: 16px;
+  line-height: 125%;
+  letter-spacing: 0.2px;
+}
+
+@media screen and (max-width: 600px) {
+  .jodit-wysiwyg h1 {
+    font-weight: bold;
+    font-size: 52px;
+    line-height: 110%;
+    letter-spacing: 0.2px;
+  }
+
+  .jodit-wysiwyg h2 {
+    font-size: 40px;
+    line-height: 110%;
+    letter-spacing: 0.2px;
+  }
+
+  .jodit-wysiwyg h3 {
+    font-size: 36px;
+    line-height: 110%;
+    letter-spacing: 0.2px;
+  }
+
+  .jodit-wysiwyg h4 {
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 114%;
+    letter-spacing: 0.2px;
+  }
+
+  .jodit-wysiwyg h5 {
+    font-size: 24px;
+    line-height: 117%;
+    letter-spacing: 0.2px;
+  }
+  .jodit-wysiwyg h6 {
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 0.2px;
+  }
+
+  .jodit-wysiwyg p {
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.2px;
+  }
+}

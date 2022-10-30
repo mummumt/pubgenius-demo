@@ -12,6 +12,7 @@ import { trpc } from '@/utils/trpc'
 import LoginBox from '@/components/styled/LoginBox'
 import StyledCard from '@/components/styled/StyledCard'
 import FlexColumnBox from '@/components/styled/FlexColumnBox'
+import FlexRowBox from '@/components/styled/FlexRowBox'
 
 type FieldValues = z.infer<typeof loginUserSchema>
 
@@ -33,18 +34,19 @@ const LoginPage: NextPage = () => {
   })
 
   const submitForm: SubmitHandler<FieldValues> = (formData) => {
-    const { username, password } = formData
-    loginUserMutation.mutate(
-      {
-        username,
-        password,
-      },
-      {
-        onSuccess: () => {
+    loginUserMutation.mutate(formData, {
+      onSuccess: () => {
+        if (window.history.state && window.history.state.idx > 0) {
+          router.back()
+        } else {
           router.push('/', '/', { shallow: true })
-        },
+        }
       },
-    )
+    })
+  }
+
+  const handleRegisterClick = () => {
+    router.push('/register', 'register', { shallow: true })
   }
 
   return (
@@ -81,9 +83,14 @@ const LoginPage: NextPage = () => {
               }}
               fullWidth
             />
-            <Button sx={{ mt: 4 }} type="submit" variant="contained">
-              Log In
-            </Button>
+            <FlexRowBox sx={{ mt: 4, justifyContent: 'space-between' }}>
+              <Button onClick={handleRegisterClick} color="inherit">
+                Register
+              </Button>
+              <Button type="submit" variant="contained">
+                Log In
+              </Button>
+            </FlexRowBox>
           </FlexColumnBox>
         </form>
       </StyledCard>

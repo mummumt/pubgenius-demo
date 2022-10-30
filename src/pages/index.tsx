@@ -5,44 +5,6 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 export default function Home() {
-  const createUserMutation = trpc.auth.register.useMutation()
-  const loginUserMutation = trpc.auth.login.useMutation()
-  const logoutUserMutation = trpc.auth.logout.useMutation()
-
-  const utils = trpc.useContext()
-
-  const handleOnClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    createUserMutation.mutate(
-      { username: '12345', password: '12345678', passwordConfirm: '12345678' },
-      {
-        onSuccess: (result) => {
-          console.log(result)
-        },
-      },
-    )
-  }
-
-  const handleOnClickLogIn: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    loginUserMutation.mutate(
-      { username: '12345', password: '12345678' },
-      {
-        onSuccess: (result) => {
-          utils.user.me.invalidate()
-          console.log(result)
-        },
-      },
-    )
-  }
-
-  const handleOnClickLogOut: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    logoutUserMutation.mutate(undefined, {
-      onSuccess: (result) => {
-        utils.user.me.invalidate()
-        console.log(result)
-      },
-    })
-  }
-
   return (
     <Box>
       <Head>

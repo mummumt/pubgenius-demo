@@ -5,8 +5,9 @@ import { getCookie, setCookie } from 'cookies-next'
 import customConfig from '../config/default'
 import { Context } from '../createContext'
 import { CreateUserInput, LoginUserInput } from '../schema/user.schema'
-import { createUser, findUniqueUser, findUser, signTokens } from '../services/user.service'
+import { createUser, deleteUser, findUniqueUser, findUser, signTokens } from '../services/user.service'
 import { signJwt, verifyJwt } from '../utils/jwt'
+import sanitizeHtml from 'sanitize-html'
 
 // [...] Cookie options
 const cookieOptions: OptionsType = {
@@ -31,6 +32,8 @@ export const registerHandler = async ({ input }: { input: CreateUserInput }) => 
     const user = await createUser({
       username: input.username,
       password: hashedPassword,
+      profileUrl: input.profileUrl,
+      userDetails: sanitizeHtml(input.userDetails),
     })
 
     return {
@@ -156,6 +159,18 @@ export const logoutHandler = async ({ ctx }: { ctx: any }) => {
   try {
     const user = ctx.user
     logout({ ctx })
+    return { status: 'success' }
+  } catch (err: any) {
+    throw err
+  }
+}
+
+export const deleteHandler = async ({ ctx }: { ctx: Context }) => {
+  try {
+    const user = ctx.user
+    logout({ ctx })
+    deleteUser(user?.id!)
+
     return { status: 'success' }
   } catch (err: any) {
     throw err

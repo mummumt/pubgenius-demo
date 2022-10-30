@@ -9,6 +9,14 @@ export const createUser = async (input: Prisma.UserCreateInput) => {
   })) as User
 }
 
+export const deleteUser = async (id: string) => {
+  return (await prisma.user.delete({
+    where: {
+      id,
+    },
+  })) as User
+}
+
 export const findUser = async (where: Partial<Prisma.UserWhereInput>, select?: Prisma.UserSelect) => {
   return (await prisma.user.findFirst({
     where,

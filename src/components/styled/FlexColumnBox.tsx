@@ -6,7 +6,8 @@ const FlexColumnBox = styled(Box)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 250px;
+  height: auto;
+  padding: 32px;
 `
 
 export default FlexColumnBox

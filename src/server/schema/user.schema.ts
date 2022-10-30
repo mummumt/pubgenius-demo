@@ -2,7 +2,7 @@ import z, { TypeOf } from 'zod'
 
 export const createUserSchema = z
   .object({
-    username: z.string({ required_error: 'Username is required' }),
+    username: z.string().min(1, 'Username is required').max(32, 'Username must be less than 32 characters'),
     password: z
       .string({ required_error: 'Password is required' })
       .min(8, 'Password must be more than 8 characters')
@@ -10,6 +10,8 @@ export const createUserSchema = z
     passwordConfirm: z.string({
       required_error: 'Please confirm your password',
     }),
+    userDetails: z.string(),
+    profileUrl: z.string(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     path: ['passwordConfirm'],
@@ -17,8 +19,11 @@ export const createUserSchema = z
   })
 
 export const loginUserSchema = z.object({
-  username: z.string({ required_error: 'Username is required' }),
-  password: z.string({ required_error: 'Password is required' }).min(8, 'Password must be more than 8 characters'),
+  username: z.string().min(1, 'Username is required').max(32, 'Username must be less than 32 characters'),
+  password: z
+    .string({ required_error: 'Password is required' })
+    .min(8, 'Password must be more than 8 characters')
+    .max(32, 'Password must be less than 32 characters'),
 })
 
 export type CreateUserInput = TypeOf<typeof createUserSchema>

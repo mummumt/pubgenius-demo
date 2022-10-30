@@ -25,7 +25,6 @@ const initialState: InitialState = {
   success: false,
 }
 
-console.log('getCookie(access_token)', getCookies())
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -49,11 +48,15 @@ const userSlice = createSlice({
     [String(getUserDetails.rejected)]: (state, { payload }) => {
       state.loading = false
     },
-    [String(getAccessToken.pending)]: (state) => {},
+    [String(getAccessToken.pending)]: (state) => {
+      state.loading = true
+    },
     [String(getAccessToken.fulfilled)]: (state, { payload }) => {
       state.accessToken = payload.result.data.access_token
     },
-    [String(getAccessToken.rejected)]: (state, { payload }) => {},
+    [String(getAccessToken.rejected)]: (state, { payload }) => {
+      state.loading = false
+    },
   },
 })
 

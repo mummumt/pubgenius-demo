@@ -2,7 +2,6 @@ import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { getCookie } from 'cookies-next'
 
-const refreshUrl = `/api/trpc/auth.refresh?batch=1&input=%7B%7D`
 export const getUserDetails = createAsyncThunk('user/getUserDetails', async (arg, { rejectWithValue }) => {
   try {
     // get user data from store
@@ -19,7 +18,7 @@ export const getUserDetails = createAsyncThunk('user/getUserDetails', async (arg
 
 export const getAccessToken = createAsyncThunk('user/getAccessToken', async (arg, { rejectWithValue }) => {
   try {
-    // get user data from store
+    // get access token from refresh token
     const { data } = await axios.get(`/api/trpc/auth.refresh`)
     return data
   } catch (error: any) {
