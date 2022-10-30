@@ -1,14 +1,12 @@
 import { NextPage } from 'next'
 import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Button, Card, IconButton, InputAdornment, TextField, Typography } from '@mui/material'
+import { Box, Button, IconButton, InputAdornment, TextField, Typography } from '@mui/material'
 import z from 'zod'
 import { createUserSchema, loginUserSchema } from '@/server/schema/user.schema'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import styled from '@emotion/styled'
-import { trpc } from '@/utils/trpc'
 import LoginBox from '@/components/styled/LoginBox'
 import StyledCard from '@/components/styled/StyledCard'
 import FlexColumnBox from '@/components/styled/FlexColumnBox'
@@ -18,6 +16,8 @@ import { RootState, useAppDispatch } from '@/app/store'
 import BackButton from '@/components/common/BackButton'
 import { useNotification } from '@/hooks/useNotification'
 import { getUserDetails } from '@/features/user/userActions'
+import { sanitize } from '@/utils/sanitizeHtml'
+import { trpc } from '@/utils/trpc'
 
 type FieldValues = z.infer<typeof createUserSchema>
 
@@ -48,6 +48,8 @@ const RegisterPage: NextPage = () => {
   })
 
   const submitForm: SubmitHandler<FieldValues> = (formData) => {
+    formData.userDetails = sanitize(formData.userDetails)
+    console.log(' formData.userDetails', formData.userDetails)
     registerMutation.mutate(formData, {
       onSuccess: () => {
         displayNotification({ type: 'success', message: 'Login success!' })

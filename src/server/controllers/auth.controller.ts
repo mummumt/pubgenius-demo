@@ -7,7 +7,7 @@ import { Context } from '../createContext'
 import { CreateUserInput, LoginUserInput } from '../schema/user.schema'
 import { createUser, deleteUser, findUniqueUser, findUser, signTokens } from '../services/user.service'
 import { signJwt, verifyJwt } from '../utils/jwt'
-import sanitizeHtml from 'sanitize-html'
+import { sanitize } from '@/utils/sanitizeHtml'
 
 // [...] Cookie options
 const cookieOptions: OptionsType = {
@@ -29,11 +29,13 @@ const refreshTokenCookieOptions: OptionsType = {
 export const registerHandler = async ({ input }: { input: CreateUserInput }) => {
   try {
     const hashedPassword = await bcrypt.hash(input.password, 12)
+    const sanitizedUserDetails = sanitize(input.userDetails)
+
     const user = await createUser({
       username: input.username,
       password: hashedPassword,
       profileUrl: input.profileUrl,
-      userDetails: sanitizeHtml(input.userDetails),
+      userDetails: sanitizedUserDetails,
     })
 
     return {
