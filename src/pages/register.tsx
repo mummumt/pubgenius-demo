@@ -13,15 +13,21 @@ import LoginBox from '@/components/styled/LoginBox'
 import StyledCard from '@/components/styled/StyledCard'
 import FlexColumnBox from '@/components/styled/FlexColumnBox'
 import RichTextEditor from '@/components/input/RichTextEditor'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/app/store'
+import BackButton from '@/components/common/BackButton'
+import { useNotification } from '@/hooks/useNotification'
 
 type FieldValues = z.infer<typeof createUserSchema>
 
 const RegisterPage: NextPage = () => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const [showPasswordConfirm, setShowPasswordConfirm] = React.useState<boolean>(false)
+  const currentUser = useSelector((state: RootState) => state.user.userInfo)
+  const { displayNotification } = useNotification()
 
-  const handleClickShowPassword = () => setShowPassword(!showPassword)
-  const handleClickShowPasswordConfirm = () => setShowPassword(!showPassword)
+  const handleClickShowPassword = () => setShowPassword((prev) => !prev)
+  const handleClickShowPasswordConfirm = () => setShowPasswordConfirm((prev) => !prev)
 
   const router = useRouter()
   console.log('router', router)
@@ -41,17 +47,21 @@ const RegisterPage: NextPage = () => {
   const submitForm: SubmitHandler<FieldValues> = (formData) => {
     registerMutation.mutate(formData, {
       onSuccess: () => {
-        loginMutation.mutate(formData, {
-          onSuccess: () => {
-            router.push('/', '/', { shallow: true })
-          },
-        })
+        displayNotification({ type: 'success', message: 'Login success!' })
+        if (!currentUser)
+          loginMutation.mutate(formData, {
+            onSuccess: () => {
+              router.push('/', '/', { shallow: true })
+            },
+          })
+        else router.push('/', '/', { shallow: true })
       },
     })
   }
 
   return (
     <LoginBox>
+      <BackButton />
       <StyledCard>
         <Typography variant="h4" color="text.primary">
           Create a profile

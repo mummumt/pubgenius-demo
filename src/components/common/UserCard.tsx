@@ -10,6 +10,8 @@ import RichTextDisplay from '../input/RichTextDisplay'
 import styled from '@emotion/styled'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/store'
+import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded'
+import { useNotification } from '@/hooks/useNotification'
 
 const StyledTinderCard = styled(TinderCard)`
   position: absolute;
@@ -20,6 +22,10 @@ const StyledTinderCard = styled(TinderCard)`
   width: calc(40vw + 50px);
   max-width: 540px;
   height: 75vh;
+  box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.3);
+  filter: ${(props: { disabled?: boolean }) => (props.disabled ? 'blur(8px)' : undefined)};
+  pointer-events: ${(props: { disabled?: boolean }) => (props.disabled ? 'none' : undefined)};
+  transition: 1s ease-in;
 `
 
 const RelativeBox = styled(Box)`
@@ -30,6 +36,7 @@ const RelativeBox = styled(Box)`
 const FlexEndBox = styled(Box)`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 `
 
 const PaddingBox = styled(Box)`
@@ -46,19 +53,35 @@ type UserCardProps = {
 
 const UserCard: FC<UserCardProps> = ({ user }) => {
   const currentUser = useSelector((state: RootState) => state.user.userInfo)
+  const likeUserMutation = trpc.user.like.useMutation()
+  const { displayNotification } = useNotification()
 
   const onSwipe = (direction: Direction) => {
-    console.log('You swiped: ' + direction)
+    if (direction === 'right' && currentUser) {
+      likeUserMutation.mutate(
+        { userId: currentUser.id, likedId: user.id },
+        {
+          onSuccess: () => {
+            displayNotification({ type: 'success', message: `You liked ${user.username}!` })
+          },
+        },
+      )
+    }
   }
 
   const onCardLeftScreen = () => {
     console.log(user.username + ' left the screen')
   }
 
-  const preventSwipe = currentUser ? ['up', 'down'] : ['up', 'down', 'left', 'right']
+  console.log('currentUser', currentUser)
 
   return (
-    <StyledTinderCard onSwipe={onSwipe} onCardLeftScreen={onCardLeftScreen} preventSwipe={preventSwipe}>
+    <StyledTinderCard
+      onSwipe={onSwipe}
+      onCardLeftScreen={onCardLeftScreen}
+      preventSwipe={['up', 'down']}
+      disabled={!currentUser}
+    >
       <RelativeBox>
         <Typography variant="h5" color="primary.contrastText" sx={{ position: 'absolute', right: 20, bottom: 20 }}>
           {user.username}
@@ -68,7 +91,7 @@ const UserCard: FC<UserCardProps> = ({ user }) => {
           component="img"
           alt={user.username}
           src={
-            user.profileUrl ??
+            user.profileUrl ||
             'https://steamuserimages-a.akamaihd.net/ugc/1644340994747007967/853B20CD7694F5CF40E83AAC670572A3FE1E3D35/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'
           }
         />
@@ -76,8 +99,9 @@ const UserCard: FC<UserCardProps> = ({ user }) => {
       <PaddingBox>
         <RichTextDisplay value={user.userDetails} />
         <FlexEndBox sx={{ mr: 2, mt: 'auto', mb: 2 }}>
+          <FavoriteRoundedIcon color="secondary" sx={{ mr: 2 }} />
           <Typography variant="h5" color="primary.contrastText">
-            Likes: {user.likedBy.length}
+            {user.likedBy.length}
           </Typography>
         </FlexEndBox>
       </PaddingBox>

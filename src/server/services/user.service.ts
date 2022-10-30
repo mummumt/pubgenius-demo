@@ -57,7 +57,7 @@ export const updateUser = async (
   return (await prisma.user.update({ where, data, select })) as User
 }
 
-export const signTokens = async (user: Prisma.UserCreateInput) => {
+export const signTokens = async (user: { id: string }) => {
   // Create Access and Refresh tokens
   const access_token = signJwt({ sub: user.id }, 'accessTokenPrivateKey', {
     expiresIn: `${customConfig.accessTokenExpiresIn}m`,

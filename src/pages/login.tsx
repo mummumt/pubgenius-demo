@@ -13,6 +13,9 @@ import LoginBox from '@/components/styled/LoginBox'
 import StyledCard from '@/components/styled/StyledCard'
 import FlexColumnBox from '@/components/styled/FlexColumnBox'
 import FlexRowBox from '@/components/styled/FlexRowBox'
+import BackButton from '@/components/common/BackButton'
+import { useNotification } from '@/hooks/useNotification'
+import { addNotification } from '@/features/snackbar/snackbarSlice'
 
 type FieldValues = z.infer<typeof loginUserSchema>
 
@@ -20,6 +23,7 @@ const LoginPage: NextPage = () => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
   const handleClickShowPassword = () => setShowPassword(!showPassword)
   const router = useRouter()
+  const { displayNotification } = useNotification()
 
   const loginUserMutation = trpc.auth.login.useMutation()
 
@@ -36,6 +40,7 @@ const LoginPage: NextPage = () => {
   const submitForm: SubmitHandler<FieldValues> = (formData) => {
     loginUserMutation.mutate(formData, {
       onSuccess: () => {
+        displayNotification({ type: 'success', message: 'Login success!' })
         if (window.history.state && window.history.state.idx > 0) {
           router.back()
         } else {
@@ -51,6 +56,7 @@ const LoginPage: NextPage = () => {
 
   return (
     <LoginBox>
+      <BackButton />
       <StyledCard>
         <Typography variant="h4" color="text.primary">
           Sign in

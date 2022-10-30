@@ -4,6 +4,7 @@
 import { css, useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Box, FormHelperText } from '@mui/material'
+import { JoditProps } from 'jodit-react'
 import dynamic from 'next/dynamic'
 import React, { useMemo } from 'react'
 import { Controller } from 'react-hook-form'
@@ -39,8 +40,9 @@ interface IRichTextEditor {
   control: any
   error: boolean
   helperText: string | undefined
-  disabled: boolean
+  disabled?: boolean
   isDynamic?: boolean
+  config?: Partial<JoditProps['config']> & { placeholder?: string }
 }
 const RichTextEditor: React.FC<IRichTextEditor> = ({
   name,
@@ -49,10 +51,11 @@ const RichTextEditor: React.FC<IRichTextEditor> = ({
   helperText = '',
   disabled = false,
   isDynamic = false,
+  config: configProps,
 }) => {
   const theme = useTheme()
 
-  const config = React.useMemo(
+  const config: Partial<JoditProps['config']> = React.useMemo(
     () => ({
       readonly: disabled,
       minHeight: 300,
@@ -206,8 +209,31 @@ const RichTextEditor: React.FC<IRichTextEditor> = ({
           '#4C1130',
         ],
       },
+      ...configProps,
     }),
-    [theme, disabled],
+    [
+      disabled,
+      theme.palette.text.primary,
+      theme.palette.text.secondary,
+      theme.palette.text.disabled,
+      theme.palette.divider,
+      theme.palette.primary.dark,
+      theme.palette.primary.main,
+      theme.palette.primary.light,
+      theme.palette.secondary.dark,
+      theme.palette.secondary.main,
+      theme.palette.secondary.light,
+      theme.palette.error.dark,
+      theme.palette.error.main,
+      theme.palette.error.light,
+      theme.palette.warning.dark,
+      theme.palette.warning.main,
+      theme.palette.warning.light,
+      theme.palette.success.dark,
+      theme.palette.success.main,
+      theme.palette.success.light,
+      configProps,
+    ],
   )
 
   return (
@@ -218,7 +244,7 @@ const RichTextEditor: React.FC<IRichTextEditor> = ({
         render={({ field: { onChange, onBlur, value, ref } }) => {
           return (
             <JoditEditor
-              config={config}
+              config={config as any}
               onBlur={onChange} // preferred to use only this option to update the content for performance reasons
               value={value}
             />

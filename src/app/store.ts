@@ -1,3 +1,4 @@
+import { snackbarReducer } from '@/features/snackbar/snackbarSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import userReducer from '../features/user/userSlice'
@@ -5,6 +6,7 @@ import userReducer from '../features/user/userSlice'
 const store = configureStore({
   reducer: {
     user: userReducer,
+    snackbar: snackbarReducer,
   },
 })
 

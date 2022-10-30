@@ -50,7 +50,7 @@ const RichTextDisplay: React.FC<IRichTextDisplay> = ({ value }) => {
     <DisplayBox>
       {React.useMemo(
         () => (
-          <JoditEditor config={config} value={value} />
+          <JoditEditor config={config as any} value={value} />
         ),
         [config, value],
       )}

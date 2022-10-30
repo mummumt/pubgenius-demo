@@ -8,6 +8,18 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+main { 
+	background-color: hsla(200,40%,30%,.4);
+	background-image:		url('/moon.png'),	
+  url('/space.jpg');
+	background-repeat:no-repeat, repeat-x;
+	background-position:-100% 100%,
+		25 100%;
+	background-size: 900px,
+		2500px;
+	animation: 100s para infinite linear;
+	}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -26,3 +38,12 @@ a {
     background: black;
   }
 }
+
+@keyframes para {
+	100% {
+		background-position: 
+    1500px 0,
+		-5000px 20%;
+		}
+	}
+

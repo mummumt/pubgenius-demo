@@ -26,5 +26,11 @@ export const loginUserSchema = z.object({
     .max(32, 'Password must be less than 32 characters'),
 })
 
+export const likeUserSchema = z.object({
+  userId: z.string().min(1, 'Required'),
+  likedId: z.string().min(1, 'Required'),
+})
+
 export type CreateUserInput = TypeOf<typeof createUserSchema>
 export type LoginUserInput = TypeOf<typeof loginUserSchema>
+export type LikeUserInput = TypeOf<typeof likeUserSchema>

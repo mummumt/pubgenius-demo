@@ -1,4 +1,5 @@
 import { RootState } from '@/app/store'
+import NoMoreData from '@/components/common/NoMoreData'
 import UserCard from '@/components/common/UserCard'
 import Navbar from '@/components/nav/Navbar'
 import FlexCenterBox from '@/components/styled/FlexCenterBox'
@@ -34,9 +35,12 @@ export default function Home() {
           ) : isLoading ? (
             <CircularProgress />
           ) : (
-            users.map((user) => {
-              return <UserCard key={user.id} user={user} />
-            })
+            <>
+              {users.map((user) => {
+                return <UserCard key={user.id} user={user} />
+              })}
+              <NoMoreData />
+            </>
           )}
         </FlexCenterBox>
       </main>
