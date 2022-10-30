@@ -51,6 +51,9 @@ const LoginPage: NextPage = () => {
           router.push('/', '/', { shallow: true })
         }
       },
+      onError: (error) => {
+        displayNotification({ type: 'error', message: `Error:${error.message}` })
+      },
     })
   }
 

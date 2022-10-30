@@ -59,6 +59,9 @@ const Navbar: React.FC<Props> = () => {
         displayNotification({ type: 'success', message: 'Logout success!' })
         dispatch(logout())
       },
+      onError: (error) => {
+        displayNotification({ type: 'error', message: `Error:${error.message}` })
+      },
     })
   }
 
@@ -68,6 +71,9 @@ const Navbar: React.FC<Props> = () => {
         onSuccess: () => {
           displayNotification({ type: 'success', message: 'Logout success!' })
           dispatch(logout())
+        },
+        onError: (error) => {
+          displayNotification({ type: 'error', message: `Error:${error.message}` })
         },
       })
     }

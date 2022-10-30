@@ -66,6 +66,9 @@ const UserCard: FC<UserCardProps> = ({ user }) => {
             onSuccess: () => {
               displayNotification({ type: 'success', message: `You liked ${user.username}!` })
             },
+            onError: (error) => {
+              displayNotification({ type: 'error', message: `Error:${error.message}` })
+            },
           },
         )
       } else {
@@ -74,6 +77,9 @@ const UserCard: FC<UserCardProps> = ({ user }) => {
           {
             onSuccess: () => {
               displayNotification({ type: 'success', message: `You ignored ${user.username}!` })
+            },
+            onError: (error) => {
+              displayNotification({ type: 'error', message: `Error:${error.message}` })
             },
           },
         )
