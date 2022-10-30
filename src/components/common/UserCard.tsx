@@ -1,9 +1,8 @@
-import StyledCard from '@/components/styled/StyledCard'
 import { trpc } from '@/utils/trpc'
 import { FC } from 'react'
 import TinderCard from 'react-tinder-card'
 import Typography from '@mui/material/Typography'
-import { Box, IconButton } from '@mui/material'
+import { Box } from '@mui/material'
 import ImageBox from '@/components/styled/ImageBox'
 import { User } from '@prisma/client'
 import RichTextDisplay from '../input/RichTextDisplay'
@@ -15,7 +14,7 @@ import { useNotification } from '@/hooks/useNotification'
 
 const StyledTinderCard = styled(TinderCard)`
   position: absolute;
-  background: linear-gradient(#e66465, #9198e5);
+  background: #f8b195;
   border-radius: 32px;
   min-width: 300px;
   min-height: 300px;
@@ -54,36 +53,38 @@ type UserCardProps = {
 const UserCard: FC<UserCardProps> = ({ user }) => {
   const currentUser = useSelector((state: RootState) => state.user.userInfo)
   const likeUserMutation = trpc.user.like.useMutation()
+  const dislikeUserMutation = trpc.user.dislike.useMutation()
+
   const { displayNotification } = useNotification()
 
   const onSwipe = (direction: Direction) => {
-    if (direction === 'right' && currentUser) {
-      likeUserMutation.mutate(
-        { userId: currentUser.id, likedId: user.id },
-        {
-          onSuccess: () => {
-            displayNotification({ type: 'success', message: `You liked ${user.username}!` })
+    if (currentUser) {
+      if (direction === 'right') {
+        likeUserMutation.mutate(
+          { userId: currentUser.id, likedId: user.id },
+          {
+            onSuccess: () => {
+              displayNotification({ type: 'success', message: `You liked ${user.username}!` })
+            },
           },
-        },
-      )
+        )
+      } else {
+        dislikeUserMutation.mutate(
+          { userId: currentUser.id, likedId: user.id },
+          {
+            onSuccess: () => {
+              displayNotification({ type: 'success', message: `You ignored ${user.username}!` })
+            },
+          },
+        )
+      }
     }
   }
 
-  const onCardLeftScreen = () => {
-    console.log(user.username + ' left the screen')
-  }
-
-  console.log('currentUser', currentUser)
-
   return (
-    <StyledTinderCard
-      onSwipe={onSwipe}
-      onCardLeftScreen={onCardLeftScreen}
-      preventSwipe={['up', 'down']}
-      disabled={!currentUser}
-    >
+    <StyledTinderCard onSwipe={onSwipe} preventSwipe={['up', 'down']} disabled={!currentUser}>
       <RelativeBox>
-        <Typography variant="h5" color="primary.contrastText" sx={{ position: 'absolute', right: 20, bottom: 20 }}>
+        <Typography variant="h4" color="primary.contrastText" sx={{ position: 'absolute', right: 20, bottom: 10 }}>
           {user.username}
         </Typography>
 

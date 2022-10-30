@@ -24,6 +24,9 @@ export const findUser = async (where: Partial<Prisma.UserWhereInput>) => {
       likedTo: {
         select: { id: true },
       },
+      dislikedTo: {
+        select: { id: true },
+      },
     },
   })
 }
@@ -32,6 +35,9 @@ export const findUsers = async () => {
   return await prisma.user.findMany({
     include: {
       likedBy: {
+        select: { id: true },
+      },
+      dislikedBy: {
         select: { id: true },
       },
     },
@@ -43,6 +49,9 @@ export const findUniqueUser = async (where: Prisma.UserWhereUniqueInput) => {
     where,
     include: {
       likedTo: {
+        select: { id: true },
+      },
+      dislikedTo: {
         select: { id: true },
       },
     },

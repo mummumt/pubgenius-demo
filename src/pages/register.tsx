@@ -14,9 +14,10 @@ import StyledCard from '@/components/styled/StyledCard'
 import FlexColumnBox from '@/components/styled/FlexColumnBox'
 import RichTextEditor from '@/components/input/RichTextEditor'
 import { useSelector } from 'react-redux'
-import { RootState } from '@/app/store'
+import { RootState, useAppDispatch } from '@/app/store'
 import BackButton from '@/components/common/BackButton'
 import { useNotification } from '@/hooks/useNotification'
+import { getUserDetails } from '@/features/user/userActions'
 
 type FieldValues = z.infer<typeof createUserSchema>
 
@@ -30,7 +31,9 @@ const RegisterPage: NextPage = () => {
   const handleClickShowPasswordConfirm = () => setShowPasswordConfirm((prev) => !prev)
 
   const router = useRouter()
-  console.log('router', router)
+
+  const dispatch = useAppDispatch()
+
   const registerMutation = trpc.auth.register.useMutation()
   const loginMutation = trpc.auth.login.useMutation()
 
@@ -50,7 +53,8 @@ const RegisterPage: NextPage = () => {
         displayNotification({ type: 'success', message: 'Login success!' })
         if (!currentUser)
           loginMutation.mutate(formData, {
-            onSuccess: () => {
+            onSuccess: async () => {
+              await dispatch(getUserDetails())
               router.push('/', '/', { shallow: true })
             },
           })

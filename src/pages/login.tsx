@@ -16,6 +16,8 @@ import FlexRowBox from '@/components/styled/FlexRowBox'
 import BackButton from '@/components/common/BackButton'
 import { useNotification } from '@/hooks/useNotification'
 import { addNotification } from '@/features/snackbar/snackbarSlice'
+import { useAppDispatch } from '@/app/store'
+import { getUserDetails } from '@/features/user/userActions'
 
 type FieldValues = z.infer<typeof loginUserSchema>
 
@@ -24,6 +26,7 @@ const LoginPage: NextPage = () => {
   const handleClickShowPassword = () => setShowPassword(!showPassword)
   const router = useRouter()
   const { displayNotification } = useNotification()
+  const dispatch = useAppDispatch()
 
   const loginUserMutation = trpc.auth.login.useMutation()
 
@@ -39,8 +42,9 @@ const LoginPage: NextPage = () => {
 
   const submitForm: SubmitHandler<FieldValues> = (formData) => {
     loginUserMutation.mutate(formData, {
-      onSuccess: () => {
+      onSuccess: async () => {
         displayNotification({ type: 'success', message: 'Login success!' })
+        await dispatch(getUserDetails())
         if (window.history.state && window.history.state.idx > 0) {
           router.back()
         } else {

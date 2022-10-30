@@ -1,6 +1,6 @@
 import { Context } from '@/server/createContext'
 import { LikeUserInput } from '@/server/schema/user.schema'
-import { findUsers } from '@/server/services/user.service'
+import { findUsers, updateUser } from '@/server/services/user.service'
 
 import { TRPCError } from '@trpc/server'
 
@@ -40,8 +40,41 @@ export const getUsersHandler = async ({ ctx }: { ctx: Context }) => {
 
 export const likeUserHandler = async ({ input, ctx: { req, res } }: { input: LikeUserInput; ctx: any }) => {
   try {
-    console.log('input', input)
-    // const users = await findUsers()
+    await updateUser(
+      { id: input.likedId },
+      {
+        likedBy: {
+          connect: {
+            id: input.userId,
+          },
+        },
+      },
+    )
+
+    return {
+      status: 'success',
+    }
+  } catch (err: any) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: err.message,
+    })
+  }
+}
+
+export const dislikeUserHandler = async ({ input, ctx: { req, res } }: { input: LikeUserInput; ctx: any }) => {
+  try {
+    await updateUser(
+      { id: input.likedId },
+      {
+        dislikedBy: {
+          connect: {
+            id: input.userId,
+          },
+        },
+      },
+    )
+
     return {
       status: 'success',
     }
