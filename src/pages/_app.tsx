@@ -34,15 +34,15 @@ function ClientCacheProvider({ children }: ClientCacheProviderProps) {
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <ClientCacheProvider>
-      <ThemeProvider theme={theme}>
-        <Provider store={store}>
+    <Provider store={store}>
+      <ClientCacheProvider>
+        <ThemeProvider theme={theme}>
           <CssBaseline />
           <Notification />
           <Component {...pageProps} />
-        </Provider>
-      </ThemeProvider>
-    </ClientCacheProvider>
+        </ThemeProvider>
+      </ClientCacheProvider>
+    </Provider>
   )
 }
 export default trpc.withTRPC(MyApp)
